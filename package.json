@@ -14,7 +14,7 @@
     "precommit": "cross-env npm run lint && npm test",
     "prepush": "cross-env npm run lint && npm test"
   },
-  "author": "Sonsoles López Pernas <sonsoleslp@hotmail.com>",
+  "author": "Jaime Hurtado de Mendoza y Roberto Llop",
   "license": "MIT",
   "jest": {
     "setupFiles": [
@@ -36,6 +36,7 @@
   "dependencies": {
     "cross-env": "5.1.0",
     "eslint-plugin-jsx-a11y": "^5.1.0",
+    "react-bootstrap": "^0.31.5",
     "react": "16.0.0",
     "react-dom": "^16.0.0",
     "react-hot-loader": "3.1.1",
