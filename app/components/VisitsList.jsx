@@ -16,11 +16,7 @@ export default class VisitsList extends React.Component {
         this.props.visitClick(visita);
     }
     render() {
-        console.log(document.childNodes[1].childNodes[2].childNodes[1].childNodes);
-        console.log(this.props.visits);
-        
         let visitList = this.props.visits.map((visit) => {
-            console.log(visit);
             return(
                 <div key={"id" + visit.id} style={styleVisitsList}>
                     <VisitSmall visit={visit} visitListClick={this.visitListClick}/>
@@ -29,7 +25,7 @@ export default class VisitsList extends React.Component {
         });
         
         return (
-            <div>
+            <div style={{overflowY: "auto", height: "100%"}}>
                 {visitList}
             </div>
         );

@@ -1,9 +1,16 @@
 $color: #262828;
+html {
+  height: 100%;
+}
 
 body {
   color: $color; 
+  height: 100%;
 }
 
 h2{
 	color: red;
+}
+#root {
+  height: 100%;
 }

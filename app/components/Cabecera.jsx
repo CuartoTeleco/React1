@@ -1,7 +1,8 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 const titleStyle = {
-    textAlign: "center"
+    textAlign: "center",
+    paddingBottom: "5px"
 }
 const title = (
   <h3 style={titleStyle}>CRM</h3>
