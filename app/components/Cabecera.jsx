@@ -10,7 +10,7 @@ export default class Cabecera extends React.Component {
     render() {
         return (
           <Panel bsStyle="info" style={titleStyle}>
-            <h1 ariaLabel="Primary" style={titleStyle}>CRM</h1>
+            <h1 style={titleStyle}>CRM</h1>
           </Panel>
         );
     }

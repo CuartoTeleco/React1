@@ -26,12 +26,9 @@ export default class VisitBig extends React.Component {
     }
 
     render() {
+        let vista;
         if (this.props.visit === "") {
-            return (
-                <div>
-                    Seleccione una visita.
-                </div>
-            );
+            vista = "Seleccione una visita";
         } else {
             let targets = this.props.visit.Targets.map((target) => {
                 return (
@@ -45,7 +42,7 @@ export default class VisitBig extends React.Component {
                     </div>
                 );
             });
-            return (
+            vista =
                 <div>
                     <button style={{display: "inLine", border: "none", float: "right"}} onClick={this.favClick}>
                         <img style={{height: "80px", width: "80px"}} alt={this.props.visit.favourite ? "Hacer favorita" : "Hacer no favorita"} src={this.props.visit.favourite ? "./../assets/images/fav.png" : "./../assets/images/notFav.png"}/>
@@ -76,8 +73,12 @@ export default class VisitBig extends React.Component {
                         </div>
                     </div>
 
-                </div>
-            );
+                </div>;
         }
+        return(
+            <div>
+                {vista}
+            </div>
+        );
     }
 }

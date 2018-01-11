@@ -3,27 +3,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const listItemInsideStyle = {
-    display: 'block',
-};
-
-const listItemStyle = {
-    float: 'left',
-    marginBottom: '10px',
-    padding: '11px',
-};
-
-const listItemStyle2 = {
-    float: 'left',
-    marginBottom: '10px',
-    padding: '0px',
-};
-
-const listItemStyle3 = {
-    float: 'left',
-    marginBottom: '10px',
-    padding: '11px 11px 11px 0px',
-};
+let dateAfterSentence;
+let dateBeforeSentence;
 
 export default class Filter extends React.Component {
     constructor(props) {
@@ -36,6 +17,7 @@ export default class Filter extends React.Component {
 
     favouriteClicked() {
         console.log(this.props);
+        document.getElementById('checkFavourite').checked = true;
         this.props.favouriteClicked();
     }
 
@@ -67,32 +49,44 @@ export default class Filter extends React.Component {
         console.log("Parámetros: ", params);
         this.props.search(params);
     }
+
     dateAfterChanged(date) {
         console.log(date);
+        dateAfterSentence = date;
+        console.log(dateAfterSentence.toDate());
+        document.getElementById('checkDateAfter').checked = true;
         this.props.dateAfterChanged(date);
     }
 
     dateBeforeChanged(date) {
+        dateBeforeSentence = date;
+        document.getElementById('checkDateBefore').checked = true;
         this.props.dateBeforeChanged(date);
     }
 
     render() {
         return (
-            <div>
-                <ul role="tree" style={{listStyle: 'none', listStyleType: 'none', paddingLeft: '10px'}}>
-                    <li role="treeitem" style={listItemStyle}><strong role="treeitem" style={listItemInsideStyle}>Desde:</strong></li>
-                    <li role="treeitem" style={listItemStyle3}><DatePicker role="treeitem" dateFormat='YYYY/MM/DD' id="dateAfter" style={listItemInsideStyle} selected={this.props.dateAfter} onChange={this.dateAfterChanged}/> </li>
-                    <li role="treeitem" style={listItemStyle3}> <input role="treeitem" type='checkbox' id='checkDateAfter'/> </li>
-                    <li role="treeitem" style={listItemStyle}><strong role="treeitem" style={listItemInsideStyle}>Hasta:</strong></li>
-                    <li role="treeitem" style={listItemStyle3}><DatePicker role="treeitem" dateFormat='YYYY/MM/DD' id="dateBefore" style={listItemInsideStyle} selected={this.props.dateBefore} onChange={this.dateBeforeChanged}/> </li>
-                    <li role="treeitem" style={listItemStyle3}> <input role="treeitem" type='checkbox' id='checkDateBefore'/> </li>
-                    <li role="treeitem" style={listItemStyle}><strong role="treeitem" style={listItemInsideStyle}>Favorito:</strong></li>
-                    <li role="treeitem" style={listItemStyle2}><button role="treeitem" style={{display: "inline", border: "none", float: "right", paddingTop: '0px'}} onClick={this.favouriteClicked}>
+            <div style={{display: 'flex', flexDirection: 'row', marginBottom: '25px', marginTop: '25px'}}>
+                <div style={{display: 'flex', flexDirection: 'row', marginRight: '30px', marginLeft: '15px'}}>
+                    <input aria-label="Input Checkbox para seleccionar fecha desde" style={{marginRight: '8px'}} type='checkbox' id='checkDateAfter'/>
+                    <strong style={{marginRight: '4px'}}>Desde:</strong>
+                    <DatePicker aria-label="Selector de fecha desde" dateFormat='YYYY/MM/DD' id="dateAfter" selected={this.props.dateAfter} onChange={this.dateAfterChanged}/>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'row', marginRight: '30px'}}>
+                    <input aria-label="Input Checkbox para seleccionar fecha hasta" style={{marginRight: '8px'}} type='checkbox' id='checkDateBefore'/>
+                    <strong style={{marginRight: '4px'}}>Hasta:</strong>
+                    <DatePicker aria-label="Selector de fecha hasta" dateFormat='YYYY/MM/DD' id="dateBefore" selected={this.props.dateBefore} onChange={this.dateBeforeChanged}/>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'row', marginRight: '30px'}}>
+                    <input aria-label="Input Checkbox para seleccionar favorito" style={{marginRight: '8px'}} type='checkbox' id='checkFavourite'/>
+                    <strong style={{marginRight: '4px'}}>Favorito:</strong>
+                    <button aria-label="Selector de favorito" style={{ display: "flex", border: "none", paddingTop: '0px', marginTop: '-12px'}} onClick={this.favouriteClicked}>
                         <img id='fav' style={{height: "40px", width: "40px"}} src={this.props.favourite ? "./../assets/images/fav.png" : "./../assets/images/notFav.png"} alt={this.props.favourite ? 'Favoritas' : 'No favoritas'}/>
-                    </button></li>
-                    <li role="treeitem" style={listItemStyle3}> <input role="treeitem" type='checkbox' id='checkFavourite'/> </li>
-                    <li role="treeitem" style={listItemStyle}> <button role="treeitem" onClick={this.searchFilter}> Buscar </button> </li>
-                </ul>
+                    </button>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <button style={{height: '18px', borderRadius: '4px'}} onClick={this.searchFilter}> Buscar </button>
+                </div>
             </div>
         );
     }

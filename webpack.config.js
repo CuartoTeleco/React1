@@ -94,7 +94,7 @@ const config = {
     },
 
   plugins: [
-    /* new webpack.LoaderOptionsPlugin({
+     new webpack.LoaderOptionsPlugin({
       test: /\.js$/,
       options: {
         eslint: {
@@ -102,7 +102,7 @@ const config = {
           cache: false,
         }
       },
-    }),*/
+    }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CopyWebpackPlugin([{ from: 'vendors', to: 'vendors' }]),
     new OpenBrowserPlugin({ url: 'http://localhost:8080' }),

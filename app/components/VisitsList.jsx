@@ -16,27 +16,23 @@ export default class VisitsList extends React.Component {
         this.props.visitClick(visita);
     }
     render() {
-        if (this.props.visits === "") {
-            return(
-                <div>
-                    No hay visitas con las opciones seleccionadas...
-                </div>
-            );
+        let visitList;
+        console.log("VISITS FILTER: ", this.props.visits);
+        if (this.props.visits.length === 0) {
+            visitList = <p style= {{marginLeft: "5px"}}>No hay visitas con las opciones seleccionadas...</p>;
         } else {
-            let visitList = this.props.visits.map((visit) => {
-                return(
+            visitList = this.props.visits.map((visit) => {
+                return (
                     <div key={"id" + visit.id} style={styleVisitsList}>
                         <VisitSmall visit={visit} visitListClick={this.visitListClick}/>
                     </div>
                 );
             });
-
-            return (
-                <div style={{overflowY: "auto", height: "100%"}}>
-                    {visitList}
-                </div>
-            );
-
         }
+        return (
+            <div style={{overflowY: "auto", height: "100%"}}>
+                {visitList}
+            </div>
+        );
     }
 }
