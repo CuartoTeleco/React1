@@ -2,17 +2,15 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 const titleStyle = {
     textAlign: "center",
-    paddingBottom: "5px"
-}
-const title = (
-  <h3 style={titleStyle}>CRM</h3>
-);
+    paddingTop: '5px',
+    paddingBottom: "5px",
+};
 
 export default class Cabecera extends React.Component {
     render() {
         return (
-          <Panel header={title} bsStyle="info" style={titleStyle}>
-            {this.props.texto}
+          <Panel bsStyle="info" style={titleStyle}>
+            <h1 ariaLabel="Primary" style={titleStyle}>CRM</h1>
           </Panel>
         );
     }

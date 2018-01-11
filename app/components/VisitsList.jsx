@@ -4,8 +4,8 @@ import VisitSmall from './VisitSmall';
 const styleVisitsList = {
     borderStyle: "solid",
     borderWidth: "1px",
-    borderColor: "lightGrey"
-}
+    borderColor: "lightGrey",
+};
 
 export default class VisitsList extends React.Component {
     constructor(props) {
@@ -16,18 +16,27 @@ export default class VisitsList extends React.Component {
         this.props.visitClick(visita);
     }
     render() {
-        let visitList = this.props.visits.map((visit) => {
+        if (this.props.visits === "") {
             return(
-                <div key={"id" + visit.id} style={styleVisitsList}>
-                    <VisitSmall visit={visit} visitListClick={this.visitListClick}/>
+                <div>
+                    No hay visitas con las opciones seleccionadas...
                 </div>
             );
-        });
-        
-        return (
-            <div style={{overflowY: "auto", height: "100%"}}>
-                {visitList}
-            </div>
-        );
+        } else {
+            let visitList = this.props.visits.map((visit) => {
+                return(
+                    <div key={"id" + visit.id} style={styleVisitsList}>
+                        <VisitSmall visit={visit} visitListClick={this.visitListClick}/>
+                    </div>
+                );
+            });
+
+            return (
+                <div style={{overflowY: "auto", height: "100%"}}>
+                    {visitList}
+                </div>
+            );
+
+        }
     }
 }
