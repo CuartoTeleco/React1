@@ -1,4 +1,9 @@
-# React Boilerplate para IWEB
+## Práctica de REACT para IWEB
+# Realizada por Jaime Hurtado de Mendoza Sastre y Roberto Llop Cardenal
+
+# Mejoras realizadas
+1. Se ha añadido la funcionalidad para poder filtrar en base a tres parámetros (dateAfter, dateBefore, favourite) antes de buscar.
+2. Se ha añadido una funcionalidad que permite marcar como favorita (o no favorita) una visita.
 
 ## Instrucciones
 

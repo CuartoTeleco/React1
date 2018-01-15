@@ -43,7 +43,7 @@ function prueba() {
     params = '&' + params;
     console.log(params);
 }
-prueba();
+// prueba();
 
 export default class App extends React.Component {
     constructor(props) {
@@ -122,6 +122,7 @@ export default class App extends React.Component {
         req.onreadystatechange = () => {
             if(req.readyState === 4) {
                 if(req.status === 200) {
+                    console.log("Se reciben las visitas");
                     visitsReal = JSON.parse(req.response);
                     this.didReceiveData(JSON.parse(req.response));
                 } else {

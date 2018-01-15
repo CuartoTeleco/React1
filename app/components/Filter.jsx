@@ -22,6 +22,7 @@ export default class Filter extends React.Component {
     }
 
     searchFilter() {
+        console.log("SE PULSA BUSCAR");
         let checkDateAfter = document.getElementById('checkDateAfter');
         let dateAfter = document.getElementById('dateAfter').value.replace('/', '-').replace('/', '-');
         let checkDateBefore = document.getElementById('checkDateBefore');
@@ -67,18 +68,18 @@ export default class Filter extends React.Component {
     render() {
         return (
             <div style={{display: 'flex', flexDirection: 'row', marginBottom: '25px', marginTop: '25px'}}>
-                <div style={{display: 'flex', flexDirection: 'row', marginRight: '30px', marginLeft: '15px'}}>
-                    <input aria-label="Input Checkbox para seleccionar fecha desde" style={{marginRight: '8px'}} type='checkbox' id='checkDateAfter'/>
+                <div role="group" aria-label="Elegir fecha desde" style={{display: 'flex', flexDirection: 'row', marginRight: '30px', marginLeft: '15px'}}>
+                    <input aria-label="Fecha desde" style={{marginRight: '8px'}} type='checkbox' id='checkDateAfter'/>
                     <strong style={{marginRight: '4px'}}>Desde:</strong>
                     <DatePicker aria-label="Selector de fecha desde" dateFormat='YYYY/MM/DD' id="dateAfter" selected={this.props.dateAfter} onChange={this.dateAfterChanged}/>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row', marginRight: '30px'}}>
-                    <input aria-label="Input Checkbox para seleccionar fecha hasta" style={{marginRight: '8px'}} type='checkbox' id='checkDateBefore'/>
+                <div role="group" aria-label="Elegir fecha hasta" style={{display: 'flex', flexDirection: 'row', marginRight: '30px'}}>
+                    <input aria-label="Fecha hasta" style={{marginRight: '8px'}} type='checkbox' id='checkDateBefore'/>
                     <strong style={{marginRight: '4px'}}>Hasta:</strong>
                     <DatePicker aria-label="Selector de fecha hasta" dateFormat='YYYY/MM/DD' id="dateBefore" selected={this.props.dateBefore} onChange={this.dateBeforeChanged}/>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row', marginRight: '30px'}}>
-                    <input aria-label="Input Checkbox para seleccionar favorito" style={{marginRight: '8px'}} type='checkbox' id='checkFavourite'/>
+                <div role="group" aria-label="Elegir favorito" style={{display: 'flex', flexDirection: 'row', marginRight: '30px'}}>
+                    <input aria-label="Favorito" style={{marginRight: '8px'}} type='checkbox' id='checkFavourite'/>
                     <strong style={{marginRight: '4px'}}>Favorito:</strong>
                     <button aria-label="Selector de favorito" style={{ display: "flex", border: "none", paddingTop: '0px', marginTop: '-12px'}} onClick={this.favouriteClicked}>
                         <img id='fav' style={{height: "40px", width: "40px"}} src={this.props.favourite ? "./../assets/images/fav.png" : "./../assets/images/notFav.png"} alt={this.props.favourite ? 'Favoritas' : 'No favoritas'}/>
