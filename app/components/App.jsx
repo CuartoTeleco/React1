@@ -5,6 +5,8 @@ import Cabecera from './Cabecera';
 import Filter from './Filter';
 import VisitBig from './VisitBig';
 import {visits} from "./../assets/mock.data.js";
+import { connect } from 'react-redux';
+import { searchApp, favouriteAppClicked, visitClick, dateAfterChanged, dateBeforeChanged } from './../reducers/actions';
 import moment from 'moment';
 
 const styleVisitList = {
@@ -34,29 +36,21 @@ const styleFilter = {
     display: 'inlineBlock',
     float: 'left',
 };
-let visitsReal = [];
 
-let params = "";
-
-function prueba() {
-    params = location.search.slice(1, location.search.length);
-    params = '&' + params;
-    console.log(params);
+function mapStateToProps(state) {
+    return {
+        visit: state.visit,
+        visits: state.visits,
+        dateAfter: state.dateAfter,
+        dateBefore: state.dateBefore,
+        favourite: state.favourite,
+    };
 }
-// prueba();
 
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            visit: "",
-            visits: visitsReal,
-            dateAfter: moment(),
-            dateBefore: moment(),
-            favourite: false,
-        };
         this.visitClick = this.visitClick.bind(this);
-        this.didReceiveData = this.didReceiveData.bind(this);
         this.favAppClick = this.favAppClick.bind(this);
         this.favouriteAppClicked = this.favouriteAppClicked.bind(this);
         this.searchApp = this.searchApp.bind(this);
@@ -64,90 +58,65 @@ export default class App extends React.Component {
         this.dateBeforeChangedApp = this.dateBeforeChangedApp.bind(this);
     }
 
-    didReceiveData(visitsParam) {
-        this.setState({
-            visit: "",
-            visits: visitsParam,
-        });
-    }
-
     visitClick(visita) {
-        this.setState({
-            visit: visita,
-            visits: visitsReal,
-        });
+        this.props.dispatch(visitClick(visita));
     }
 
     favouriteAppClicked() {
-        this.setState({
-            favourite: !this.state.favourite,
-        });
+        this.props.dispatch(favouriteAppClicked(!this.props.favourite));
     }
 
     favAppClick(visita) {
-        let id = visita.id;
-        let url = "";
         let reqPut = new XMLHttpRequest();
-        let idAux;
-        let visitsAux;
+        let url = "";
         if (visita.favourite) {
-            url = "https://dcrmt.herokuapp.com/api/users/tokenOwner/favourites/" + id + "?token=ea014460d8c1df1805b7&_method=delete";
+            url = "https://dcrmt.herokuapp.com/api/users/tokenOwner/favourites/" + visita.id + "?token=ea014460d8c1df1805b7&_method=delete";
         } else {
-            url = "https://dcrmt.herokuapp.com/api/users/tokenOwner/favourites/" + id + "?token=ea014460d8c1df1805b7&_method=put";
+            url = "https://dcrmt.herokuapp.com/api/users/tokenOwner/favourites/" + visita.id + "?token=ea014460d8c1df1805b7&_method=put";
         }
         reqPut.onreadystatechange = () => {
             if(reqPut.readyState === 4) {
                 if(reqPut.status === 200) {
-                    // console.log(this.state.visits);
-                    visita.favourite = !visita.favourite;
-                    idAux = this.state.visits.findIndex((element)=>{return element.id === visita.id;});
-                    visitsAux = this.state.visits;
-                    visitsAux[idAux] = visita;
-                    this.setState({
-                        visit: visita,
-                        visits: visitsAux,
-                    });
+                    console.log("Visita cambiada en CRM");
                 } else {
-                    console.log("Error: ", reqPut.status);
+                    console.log("Error en la descarga");
                 }
             }
         };
         reqPut.open('GET', url);
         reqPut.send();
+        let visitAux = JSON.parse(JSON.stringify(visita));
+        visitAux.favourite = !visitAux.favourite;
+        let idAux = this.props.visits.findIndex((element)=>{return element.id === visita.id;});
+        let visitsAux = JSON.parse(JSON.stringify(this.props.visits));
+        visitsAux[idAux] = visitAux;
+        this.props.dispatch(visitClick(visitAux));
+        this.props.dispatch(searchApp(visitsAux));
     }
 
     searchApp(query) {
-        let req = new XMLHttpRequest();
         let url = "https://dcrmt.herokuapp.com/api/visits/flattened?token=ea014460d8c1df1805b7" + query;
+        let req = new XMLHttpRequest();
         req.onreadystatechange = () => {
             if(req.readyState === 4) {
                 if(req.status === 200) {
-                    console.log("Se reciben las visitas");
-                    visitsReal = JSON.parse(req.response);
-                    this.didReceiveData(JSON.parse(req.response));
-                } else {
-                    this.didReceiveData("");
-                    console.log("Error: " + req.status);
+                    this.props.dispatch(searchApp(JSON.parse(req.response)));
+                }
+                else {
+                    console.log("Error en la descarga");
                 }
             }
         };
         req.open('GET', url);
         req.send(null);
-        console.log('Buscar desde app');
     }
 
     dateAfterChangedApp(date) {
-        console.log("En app after: ", date);
-        this.setState({
-            dateAfter: date,
-        });
+        this.props.dispatch(dateAfterChanged(date));
     }
 
     dateBeforeChangedApp(date) {
-        console.log("En app before: ", date);
-        this.setState({
-            dateBefore: date,
-        });
+        this.props.dispatch(dateBeforeChanged(date));
     }
 
     render() {
@@ -155,13 +124,13 @@ export default class App extends React.Component {
             <div style={{height: "100%"}}>
                 <Cabecera/>
                 <div style={styleFilter}>
-                    <Filter dateAfter={this.state.dateAfter} dateBefore={this.state.dateBefore} favourite={this.state.favourite} favouriteClicked={this.favouriteAppClicked} search={this.searchApp} dateAfterChanged={this.dateAfterChangedApp} dateBeforeChanged={this.dateBeforeChangedApp}/>
+                    <Filter store={this.props.store} dateAfter={this.props.dateAfter} dateBefore={this.props.dateBefore} favourite={this.props.favourite} favouriteClicked={this.favouriteAppClicked} search={this.searchApp} dateAfterChanged={this.dateAfterChangedApp} dateBeforeChanged={this.dateBeforeChangedApp}/>
                 </div>
                 <div style={styleVisitList}>
-                    <VisitsList visits={this.state.visits} visitClick={this.visitClick}/>
+                    <VisitsList store={this.props.store} visits={this.props.visits} visitClick={this.visitClick}/>
                 </div>
                 <div style={styleVisitBig}>
-                    <VisitBig visit={this.state.visit} favClick={this.favAppClick} tabIndex="0"/>
+                    <VisitBig store={this.props.store} visit={this.props.visit} favClick={this.favAppClick} tabIndex="0"/>
                 </div>
             </div>
         );
@@ -169,3 +138,4 @@ export default class App extends React.Component {
 
 }
 
+export default connect(mapStateToProps)(App);

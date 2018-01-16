@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 const styleColIzda = {
     float: "left",
     width: "30%",
@@ -82,3 +84,5 @@ export default class VisitBig extends React.Component {
         );
     }
 }
+
+// export default connect()(VisitBig);
