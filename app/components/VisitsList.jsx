@@ -1,5 +1,6 @@
 import React from 'react';
 import VisitSmall from './VisitSmall';
+import { connect } from 'react-redux';
 
 const styleVisitsList = {
     borderStyle: "solid",
@@ -17,7 +18,6 @@ export default class VisitsList extends React.Component {
     }
     render() {
         let visitList;
-        console.log("VISITS FILTER: ", this.props.visits);
         if (this.props.visits.length === 0) {
             visitList = <p style= {{marginLeft: "5px"}}>No hay visitas con las opciones seleccionadas...</p>;
         } else {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 const visitSmallStyle = {
     width: "100%",
@@ -13,7 +14,6 @@ export default class VisitSmall extends React.Component {
         this.visitSmallClick = this.visitSmallClick.bind(this);
     }
     visitSmallClick() {
-        // console.log(this.props.visit);
         this.props.visitListClick(this.props.visit);
     }
     render() {

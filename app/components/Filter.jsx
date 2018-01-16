@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { connect } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 
 let dateAfterSentence;
@@ -16,13 +17,11 @@ export default class Filter extends React.Component {
     }
 
     favouriteClicked() {
-        console.log(this.props);
         document.getElementById('checkFavourite').checked = true;
         this.props.favouriteClicked();
     }
 
     searchFilter() {
-        console.log("SE PULSA BUSCAR");
         let checkDateAfter = document.getElementById('checkDateAfter');
         let dateAfter = document.getElementById('dateAfter').value.replace('/', '-').replace('/', '-');
         let checkDateBefore = document.getElementById('checkDateBefore');
@@ -30,8 +29,6 @@ export default class Filter extends React.Component {
         let checkFavourite = document.getElementById('checkFavourite');
         let fav = document.getElementById('fav').alt === 'Favoritas' ? '1' : '0';
         let params = '';
-        console.log(Number(dateAfter.split('-')[0]) < Number(dateBefore.split('_')[0]));
-        console.log("Antes de: ", dateBefore, "Después de: ", dateAfter);
         if (checkDateAfter.checked && checkDateBefore.checked) {
             if (Number(dateAfter.split('-')[0]) < Number(dateBefore.split('_')[0])) {
                 alert('Las fechas introducidas son incorrectas');
@@ -47,14 +44,12 @@ export default class Filter extends React.Component {
         params += checkDateAfter.checked ? '&dateafter=' + dateAfter : '';
         params += checkDateBefore.checked ? '&datebefore=' + dateBefore : '';
         params += checkFavourite.checked ? '&favourites=' + fav : '';
-        console.log("Parámetros: ", params);
         this.props.search(params);
     }
 
     dateAfterChanged(date) {
         console.log(date);
         dateAfterSentence = date;
-        console.log(dateAfterSentence.toDate());
         document.getElementById('checkDateAfter').checked = true;
         this.props.dateAfterChanged(date);
     }
@@ -92,3 +87,5 @@ export default class Filter extends React.Component {
         );
     }
 }
+
+// export default connect()(Filter);
